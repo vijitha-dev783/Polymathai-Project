@@ -1,0 +1,59 @@
+{
+    "project_id": "F04-I1",
+    "description": "Frozen hyperparameters tuned strictly once on Dataset 1 training split via 5-fold GridSearchCV",
+    "tuning_split": "Dataset 1 (Crop_recommendation.csv) 80/20 train split (n=1760), random_state=42",
+    "preprocessing_rules": {
+        "label_encoding": "sklearn.preprocessing.LabelEncoder (22 classes)",
+        "scaling_policy": "StandardScaler applied strictly to distance/margin-based models: ['SVM (RBF)', 'KNN']",
+        "dataset2_missing_value_rule": "Fill null values in categorical irrigation_type with sentinel token 'missing'"
+    },
+    "models": {
+        "Random Forest": {
+            "best_params": {
+                "max_depth": null,
+                "min_samples_split": 5,
+                "n_estimators": 200
+            },
+            "requires_scaling": false,
+            "train_cv_accuracy": 0.996,
+            "test_accuracy": 0.9955
+        },
+        "XGBoost": {
+            "best_params": {
+                "learning_rate": 0.2,
+                "max_depth": 7,
+                "n_estimators": 200
+            },
+            "requires_scaling": false,
+            "train_cv_accuracy": 0.9926,
+            "test_accuracy": 0.9864
+        },
+        "SVM (RBF)": {
+            "best_params": {
+                "C": 50.0,
+                "gamma": "scale"
+            },
+            "requires_scaling": true,
+            "train_cv_accuracy": 0.983,
+            "test_accuracy": 0.9886
+        },
+        "KNN": {
+            "best_params": {
+                "n_neighbors": 5,
+                "p": 1,
+                "weights": "distance"
+            },
+            "requires_scaling": true,
+            "train_cv_accuracy": 0.975,
+            "test_accuracy": 0.9818
+        },
+        "Gaussian Naive Bayes": {
+            "best_params": {
+                "var_smoothing": 1e-09
+            },
+            "requires_scaling": false,
+            "train_cv_accuracy": 0.9949,
+            "test_accuracy": 0.9955
+        }
+    }
+}
