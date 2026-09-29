@@ -1,0 +1,7 @@
+Model,Test_Accuracy,Test_Macro_F1,F1_Cotton,F1_Maize,F1_Rice,F1_Soybean,F1_Wheat
+Random Forest,0.27,0.248,0.25,0.2807,0.0909,0.383,0.2353
+XGBoost,0.21,0.1909,0.1143,0.2857,0.08,0.2745,0.2
+SVM (RBF),0.17,0.1519,0.2609,0.1786,0.0,0.1951,0.125
+KNN,0.17,0.1703,0.2,0.2308,0.2667,0.1026,0.0513
+Gaussian Naive Bayes,0.22,0.1872,0.2308,0.1739,0.0,0.36,0.1714
+Majority Baseline (ZeroR),0.2,0.0667,0.3333,0.0,0.0,0.0,0.0

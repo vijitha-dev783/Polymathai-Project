@@ -1,0 +1,7 @@
+Model,Cotton,Maize,Rice,Soybean,Wheat
+Gaussian Naive Bayes,0.2241,0.2092,0.0364,0.2646,0.1605
+KNN,0.2559,0.2058,0.1974,0.2407,0.1461
+Majority Baseline (ZeroR),0.0,0.3633,0.0,0.0,0.0
+Random Forest,0.2712,0.2302,0.126,0.3172,0.1013
+SVM (RBF),0.2896,0.2551,0.1899,0.198,0.1364
+XGBoost,0.2315,0.2203,0.1892,0.2698,0.1946
