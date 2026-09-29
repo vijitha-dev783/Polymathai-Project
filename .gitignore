@@ -1,0 +1,4 @@
+powershell.cmd
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
