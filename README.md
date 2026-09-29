@@ -120,7 +120,32 @@ consistent across machines.
 }
 ```
 
+## Empirical Evaluation: Protocol Grid & Collapse Mode Analysis (Milestones 5 & 6)
+
+### 5x2x3 Accuracy Comparison Grid
+
+| Model | Dataset 1: Single Split | Dataset 1: 5-Fold CV | Dataset 1: 10x Repeated | Dataset 2: Single Split | Dataset 2: 5-Fold CV | Dataset 2: 10x Repeated |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Random Forest** | 0.9977 | 0.9955 ± 0.0032 | 0.9952 ± 0.0013 | 0.2700 | 0.2260 ± 0.0594 | 0.2330 ± 0.0356 |
+| **XGBoost** | 0.9977 | 0.9941 ± 0.0044 | 0.9889 ± 0.0039 | 0.2100 | 0.2240 ± 0.0351 | 0.1920 ± 0.0297 |
+| **SVM (RBF)** | 0.9932 | 0.9859 ± 0.0044 | 0.9898 ± 0.0031 | 0.1700 | 0.2200 ± 0.0561 | 0.2080 ± 0.0290 |
+| **KNN** | 0.9841 | 0.9809 ± 0.0107 | 0.9823 ± 0.0090 | 0.1700 | 0.2120 ± 0.0239 | 0.2100 ± 0.0333 |
+| **Gaussian Naive Bayes** | 0.9932 | 0.9945 ± 0.0020 | 0.9957 ± 0.0029 | 0.2200 | 0.2000 ± 0.0235 | 0.1790 ± 0.0251 |
+
+### Dataset 2 Majority-Class Baseline & Per-Class F1 Diagnosis
+
+- **Majority Class**: Maize (111 / 500 samples, **22.20%** baseline).
+- **Per-Class F1 Matrix on Dataset 2 (5-Fold CV Out-Of-Fold)**:
+  - Cotton: RF=0.2712, XGB=0.2315, SVM=0.2896, KNN=0.2559, GNB=0.2241
+  - Maize *(Majority)*: RF=0.2302, XGB=0.2203, SVM=0.2551, KNN=0.2058, GNB=0.2092
+  - Rice *(Minority)*: RF=0.1260, XGB=0.1892, SVM=0.1899, KNN=0.1974, GNB=0.0364
+  - Soybean: RF=0.3172, XGB=0.2698, SVM=0.1980, KNN=0.2407, GNB=0.2646
+  - Wheat: RF=0.1013, XGB=0.1946, SVM=0.1364, KNN=0.1461, GNB=0.1605
+- **Collapse Mode Diagnosis**:
+  No model achieved statistically significant performance above the 22.20% majority baseline. Random Forest's 27.00% single-split accuracy is an artifact of split variance (its 5-fold CV is 22.60 ± 5.94% and 10x repeated holdout is 23.30 ± 3.56%). All 5 models suffer from stochastic uniform representation collapse due to lack of environmental feature separability in Dataset 2.
+
 ## License
 
 Code in this repository is released under the MIT License (see `LICENSE`).
 The dataset is subject to its own license on Kaggle and is not included here.
+
