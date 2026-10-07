@@ -186,4 +186,34 @@ plt.tight_layout()
 plt.savefig('results/figures/fig4_confusion_matrices_dataset2.png', dpi=300)
 plt.close()
 
-print("All 4 publication figures generated successfully in 'results/figures/'!", flush=True)
+# -------------------------------------------------------------------------
+# Figure 5: Dataset 2 Collapse with Majority Baseline Bar Chart (Reviewer Recommended)
+# -------------------------------------------------------------------------
+print("Generating Figure 5: Dataset 2 5-Fold CV vs Majority Baseline Bar Chart...", flush=True)
+fig, ax = plt.subplots(figsize=(8, 5))
+x = np.arange(len(models))
+
+bars = ax.bar(x, [m * 100 for m in d2_acc], yerr=[s * 100 for s in d2_std],
+              capsize=6, color='#d95f02', edgecolor='black', alpha=0.85, width=0.55,
+              label='5-Fold CV Mean (+/- 1 Std Dev)')
+
+line = ax.axhline(22.20, color='red', linestyle='--', linewidth=2,
+                  label='Zero-Rule Majority Baseline (Maize: 22.20%)')
+
+ax.set_ylabel('Classification Accuracy (%)', fontweight='bold', fontsize=12)
+ax.set_title('Dataset 2 Performance Collapse: 5-Fold CV Mean vs. Majority Baseline', fontweight='bold', fontsize=13)
+ax.set_xticks(x)
+ax.set_xticklabels(models, fontweight='bold', fontsize=10)
+ax.set_ylim(0, 35)
+ax.legend(frameon=True, loc='upper right', fontsize=10)
+
+for bar in bars:
+    yval = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width()/2.0, yval + 1.2, f'{yval:.2f}%', ha='center', va='bottom', fontweight='bold', fontsize=10)
+
+plt.tight_layout()
+plt.savefig('results/figures/fig5_dataset2_collapse_with_baseline.png', dpi=300)
+plt.close()
+
+print("All 5 publication figures generated successfully in 'results/figures/'!", flush=True)
+

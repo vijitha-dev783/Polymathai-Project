@@ -1,4 +1,5 @@
-# Comparative Performance Analysis of Supervised Machine Learning Algorithms for Precision Crop Recommendation: Investigating Split Variance, Dataset Separability, and Model Collapse
+# Beyond 99%: Investigating Evaluation Protocol Variance and Dataset Separability in AI-Driven Crop Recommendation
+*Comparative Performance Analysis of Supervised Machine Learning Algorithms for Precision Crop Recommendation*
 
 **Puppala Anjali**$^{1}$, **Kasarla Vijitha**$^{1}$  
 $^{1}$Department of Information Technology, Chaitanya Bharathi Institute of Technology (CBIT), Hyderabad, India  
@@ -7,21 +8,19 @@ $^{1}$Department of Information Technology, Chaitanya Bharathi Institute of Tech
 ---
 
 ## Abstract
-In recent smart-agriculture literature, machine learning (ML) models for soil- and climate-driven crop recommendation routinely report near-ceiling classification accuracies exceeding 98% to 99%. However, the vast majority of these studies evaluate predictive models under an arbitrary single 80/20 train-test holdout without reporting split-to-split variance, confidence bounds, or cross-dataset validation. Consequently, it remains unresolved whether these reported near-perfect scores reflect genuine algorithmic capability or are artifacts of favorable split selection and highly separable benchmark data. To address this methodological gap, this study conducts an exhaustive, controlled comparative benchmarking audit across five supervised machine learning algorithm families: Random Forest (RF), Extreme Gradient Boosting (XGBoost), Support Vector Machine with Radial Basis Function kernel (SVM-RBF), K-Nearest Neighbors (KNN), and Gaussian Naive Bayes (GNB). 
+In recent smart-agriculture literature, machine learning (ML) models for soil- and climate-driven crop recommendation routinely report near-ceiling classification accuracies exceeding 98% to 99%. However, the field has reached a saturation plateau where nearly all studies evaluate models under an arbitrary single 80/20 train-test holdout without reporting split-to-split variance or cross-dataset validation. This study presents a "Fair Rerun" benchmark revealing a striking **"Two Worlds"** dichotomy in precision agriculture: while models evaluated on benchmark data (Dataset 1) replicate saturated ~98.1% to 99.8% accuracies across all protocols, identical frozen models completely collapse to ~17.0%–23.3% accuracy on real-world IoT sensor logs (Dataset 2)—failing to outperform the 22.20% majority-class baseline. Furthermore, we expose the **"Lucky Split"** fallacy: on Dataset 2, Random Forest scores 27.00% under a single holdout split, but drops to 22.60% ± 5.94% under 5-fold cross-validation and 23.30% ± 3.56% under 10× repeated holdouts, proving that single-split reporting can overstate performance by ~5% purely due to partition luck. Statistical audits using One-Way Analysis of Variance (ANOVA) confirm that Dataset 2 features possess no agronomic class separability ($p \gg 0.05$ across all attributes, including soil pH at $p = 0.96$ and temperature at $p = 0.99$). We establish that published 99% accuracies reflect benchmark dataset separability rather than algorithmic robustness, and call for repeated stratified holdouts as the minimum reporting standard in agricultural AI.
 
-All algorithms were configured using frozen hyperparameter baselines and evaluated under a rigorous zero-leakage preprocessing protocol across three matched validation frameworks: (1) an unstratified single 80/20 holdout split, (2) stratified 5-fold cross-validation, and (3) a 10× repeated stratified holdout across independent random seeds. Experiments were conducted on two agricultural datasets: the widely cited Kaggle Crop Recommendation benchmark (2,200 samples, 22 classes) and a secondary smart farming IoT sensor dataset (500 samples, 5 classes). 
-
-Our empirical results expose a critical divergence: while all models reproduce ~98.1% to 99.8% accuracy on Dataset 1, every model experiences catastrophic performance collapse on Dataset 2, scoring between 17.0% and 23.3% accuracy—failing to outperform the trivial majority-class baseline of 22.20%. Statistical audits utilizing One-Way Analysis of Variance (ANOVA) confirm that the environmental attributes in Dataset 2 exhibit no statistically significant class separability ($p \gg 0.05$ across all features, including soil pH at $p = 0.96$ and temperature at $p = 0.99$). Furthermore, our multi-protocol framework demonstrates that single-split evaluations introduce substantial variance ($\pm 5.94\%$), creating an illusion of model superiority. We conclude that published 99% accuracies in precision crop recommendation are predominantly artifacts of cleanly clustered benchmark distributions rather than algorithmic robustness, and we provide concrete guidelines for trustworthy, reproducible validation in agricultural AI.
-
-**Keywords:** Smart Agriculture, Precision Crop Recommendation, Supervised Learning, Cross-Validation, Split-Selection Bias, Model Collapse, Data Leakage, Empirical Benchmarking.
+**Keywords:** Smart Agriculture, Precision Crop Recommendation, Supervised Learning, Two Worlds Benchmark, Cross-Validation, Split-Selection Bias, Model Collapse, Data Leakage.
 
 ---
 
-## 1. Introduction
+## 1. Introduction: The Saturation Problem and Protocol Gap
 
 Precision agriculture leverages data-driven intelligence to optimize agricultural inputs, maximize crop yield, and mitigate risks associated with climate change and soil degradation. For smallholder and marginal farmers, selecting the optimal crop suited to localized edaphic (soil nutrients, pH, moisture) and climatic (temperature, humidity, precipitation) factors is one of the most critical decisions governing seasonal economic viability. Over the past five years, the application of classical supervised machine learning algorithms—ranging from tree ensembles to margin-based classifiers—has proliferated across agronomic computing.
 
-A survey of current literature reveals a remarkable consensus: numerous published studies report classification accuracies ranging from 97% to 99.8% for crop recommendation tasks. Such near-perfect performance suggests that the problem of soil- and climate-driven crop selection has been essentially solved by standard algorithms such as Random Forest, XGBoost, and Support Vector Machines. 
+### 1.1 The Saturation Problem
+A survey of current literature reveals a remarkable saturation phenomenon: dozens of published studies (e.g., Guel et al., 2026; Maji et al., 2026) report classification accuracies between 98% and 99.8% for crop recommendation tasks. The field has effectively hit a ceiling where novel algorithmic architectures compete over hundredths of a percentage point on the standard Kaggle Crop Recommendation dataset. This saturation creates a false sense of certainty that the crop recommendation challenge is essentially "solved" by standard classifiers.
+ 
 
 However, a rigorous inspection of the experimental methodology underpinning these studies exposes several foundational weaknesses:
 1. **Pervasive Reliance on Single Splits:** Most published works report classification metrics derived from a single, arbitrary train-test split (typically 80/20 or 70/30). Without reporting metric dispersion across multiple random seeds, it is impossible to determine whether reported performance reflects average algorithmic efficacy or a fortunate, "lucky" partition of the data.
@@ -344,15 +343,16 @@ This paper conducted a rigorous empirical audit of five supervised machine learn
 
 ## References
 
-1. Maji, C., Pal, P., Singh, R. K., & Upadhyay, S. (2026). Soil and Climate-Driven Crop Recommendation via Ensemble Learning: A Comparative Study of Classical Classifiers for Resource-Constrained Deployment. *Proceedings of the International Conference on Intelligent Systems and Robotics for Sustainable Development (ISRSD-2026)*, Springer Lecture Notes in Electrical Engineering (LNEE).
-2. Zanzari, K., et al. (2026). A Comparative Benchmarking Study of Classical Machine Learning and Deep Learning Methods for Image-Based Deepfake Detection. *Applied Cybersecurity & Internet Governance (ACIG)*, 5(1), DOI: 10.60097/ACIG/221087.
-3. Ingle, A. (2020). Crop Recommendation Dataset. *Kaggle Datasets*. https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset.
-4. Soundankar, A. (2024). Smart Farming Sensor Data for Yield Prediction. *Kaggle Datasets*. https://www.kaggle.com/datasets/atharvasoundankar/smart-farming-sensor-data-for-yield-prediction.
-5. Breiman, L. (2001). Random Forests. *Machine Learning*, 45(1), 5-32.
-6. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785-794.
-7. Cortes, C., & Vapnik, V. (1995). Support-Vector Networks. *Machine Learning*, 20(3), 273-297.
-8. Cover, T., & Hart, P. (1967). Nearest Neighbor Pattern Classification. *IEEE Transactions on Information Theory*, 13(1), 21-27.
-9. Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. *Journal of Machine Learning Research*, 12, 2825-2830.
-10. Kapoor, S., & Narayanan, A. (2023). Leakage and the Reproducibility Crisis in Machine-Learning-Based Science. *Patterns*, 4(9), 100804.
-11. Bouthillier, X., Delaunay, P., Bronzi, M., Trofimov, A., Nichyporuk, B., Szeto, J., ... & Varoquaux, G. (2021). Accounting for Variance in Machine Learning Benchmarks. *Proceedings of Machine Learning and Systems (MLSys)*, 3, 253-269.
-12. Varoquaux, G. (2018). Cross-Validation Failure: Small Sample Sizes Lead to Large Error Bars. *NeuroImage*, 180, 68-77.
+1. Guel, R., et al. (2026). Machine Learning Benchmarks in Precision Agriculture: Saturation and Performance Limits. *Semantic Scholar*, https://www.semanticscholar.org/paper/3845e4f3bf7262ad731c6200f13585a028176c6f.
+2. Maji, C., Pal, P., Singh, R. K., & Upadhyay, S. (2026). Soil and Climate-Driven Crop Recommendation via Ensemble Learning: A Comparative Study of Classical Classifiers for Resource-Constrained Deployment. *Proceedings of the International Conference on Intelligent Systems and Robotics for Sustainable Development (ISRSD-2026)*, Springer Lecture Notes in Electrical Engineering (LNEE).
+3. Zanzari, K., et al. (2026). A Comparative Benchmarking Study of Classical Machine Learning and Deep Learning Methods for Image-Based Deepfake Detection. *Applied Cybersecurity & Internet Governance (ACIG)*, 5(1), DOI: 10.60097/ACIG/221087.
+4. Ingle, A. (2020). Crop Recommendation Dataset. *Kaggle Datasets*. https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset.
+5. Soundankar, A. (2024). Smart Farming Sensor Data for Yield Prediction. *Kaggle Datasets*. https://www.kaggle.com/datasets/atharvasoundankar/smart-farming-sensor-data-for-yield-prediction.
+6. Breiman, L. (2001). Random Forests. *Machine Learning*, 45(1), 5-32.
+7. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785-794.
+8. Cortes, C., & Vapnik, V. (1995). Support-Vector Networks. *Machine Learning*, 20(3), 273-297.
+9. Cover, T., & Hart, P. (1967). Nearest Neighbor Pattern Classification. *IEEE Transactions on Information Theory*, 13(1), 21-27.
+10. Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. *Journal of Machine Learning Research*, 12, 2825-2830.
+11. Kapoor, S., & Narayanan, A. (2023). Leakage and the Reproducibility Crisis in Machine-Learning-Based Science. *Patterns*, 4(9), 100804.
+12. Bouthillier, X., Delaunay, P., Bronzi, M., Trofimov, A., Nichyporuk, B., Szeto, J., ... & Varoquaux, G. (2021). Accounting for Variance in Machine Learning Benchmarks. *Proceedings of Machine Learning and Systems (MLSys)*, 3, 253-269.
+13. Varoquaux, G. (2018). Cross-Validation Failure: Small Sample Sizes Lead to Large Error Bars. *NeuroImage*, 180, 68-77.
